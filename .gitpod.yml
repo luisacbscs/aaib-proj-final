@@ -1,6 +1,6 @@
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
-  - name: Terminal 3
+  - name: Terminal 1
     init:  |
       npm install -g json
       python -m pip install scipy  
@@ -18,7 +18,7 @@ tasks:
       sudo apt-get install libsndfile1-dev
     command: streamlit run calculator.py
 
-  - name: Terminal 4
+  - name: Terminal 2
     init:  |
       sudo apt install -y mosquitto
       sudo apt install mosquitto-clients
