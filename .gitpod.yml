@@ -1,0 +1,40 @@
+# List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
+tasks:
+  - name: Terminal 3
+    init:  |
+      npm install -g json
+      python -m pip install scipy  
+      sudo pip3 install streamlit
+      sudo pip3 install streamlit-autorefresh
+      sudo apt install -y mosquitto
+      sudo apt install mosquitto-clients
+      sudo service mosquitto start
+      sudo service mosquitto status
+      sudo pip3 install paho-mqtt
+      git clone https://github.com/eclipse/paho.mqtt.python.git
+      cd paho.mqtt.python
+      python setup.py install
+      cd ..
+      sudo apt-get install libsndfile1-dev
+    command: streamlit run calculator.py
+
+  - name: Terminal 4
+    init:  |
+      sudo apt install -y mosquitto
+      sudo apt install mosquitto-clients
+      sudo service mosquitto start
+      sudo service mosquitto status
+      sudo pip3 install paho-mqtt
+      git clone https://github.com/eclipse/paho.mqtt.python.git
+      cd paho.mqtt.python
+      python setup.py install
+      cd ..
+    command: python expression_sub.py
+
+
+ports:
+- name: Streamlit
+  description: The main application web server
+  port: 8501
+  onOpen: open-browser
+  
