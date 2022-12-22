@@ -3,6 +3,7 @@ import streamlit.components.v1 as components
 import paho.mqtt.client as mqtt
 import time
 from streamlit_autorefresh import st_autorefresh
+import matplotlib.pyplot as plt
 
 st.set_page_config(page_title='Voice Calculator', page_icon='🎙')
 
@@ -39,8 +40,8 @@ with col3:
             f.close()
         st.experimental_rerun()
 with col4:
-    st.button('(a+b)ⁿ')
-
+    if st.button('(a+b)ⁿ'):
+        result = 'Binomial Expansion'
 with col5:
     if st.button('C'):
         with open('expression.txt', 'w') as f:
@@ -135,3 +136,15 @@ with st.container():
         st.text(prev_calc[-2])
     except IndexError:
         pass
+
+st.title('Plot')
+def plot_graph(f):
+    x = np.arange(-100,100,0.1)
+    fig = plt.figure(figsize=(20, 10))
+    plt.plot(x, f, color='#DAF7A6')
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.grid('on')
+    st.pyplot(fig3)
+
+plot_graph()
