@@ -210,7 +210,7 @@ st.title('Plot')
 
 def plot_graph(f):    
     fig = plt.figure(figsize=(20, 10))
-    plt.plot(x, f, color='#DAF7A6', linewidth=2)
+    plt.plot(x, f, color='#DAF7A6', linewidth=3)
     plt.xlabel("x")
     plt.ylabel("y")
     plt.grid('on')
@@ -254,6 +254,8 @@ with col9:
                 f.write(number)
         except IndexError:
             pass
+        with open('expression.txt', 'w') as f:
+            f.write('Record mathematical expression to compute.\n')
         st.experimental_rerun()
 with col10:
     st.markdown('b:')
@@ -274,6 +276,8 @@ with col12:
                 f.write(number)
         except IndexError:
             pass
+        with open('expression.txt', 'w') as f:
+            f.write('Record mathematical expression to compute.\n')
         st.experimental_rerun()
 if plot == 'f(x)=mx+b':
     try:
