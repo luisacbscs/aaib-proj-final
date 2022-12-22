@@ -189,10 +189,15 @@ col7, col8, col9, col10, col11, col12, col13 = st.columns([1, 1, 2, 1, 1, 2, 6],
 with col7:
     st.markdown('m:')
 with col8:
-    st.markdown(read_expression('m.txt'))
+    try:
+        m = int(read_expression('m.txt'))
+    except ValueError:
+        m = 'NaN'
+    st.markdown(m)
 with col9:
     if st.button('REC', key=2):
         client.publish("AAIB-TL", payload="start")
+        time.sleep(10)
         f = open('expression.txt', 'r')
         lines = f.readlines()
         f.close()
@@ -206,10 +211,15 @@ with col9:
 with col10:
     st.markdown('b:')
 with col11:
-    st.markdown(read_expression('b.txt'))
+    try:
+        b = int(read_expression('b.txt'))
+    except ValueError:
+        b = 'NaN'
+    st.markdown(b)
 with col12:
     if st.button('REC', key=3):
         client.publish("AAIB-TL", payload="start")
+        time.sleep(10)
         f = open('expression.txt', 'r')
         lines = f.readlines()
         f.close()
