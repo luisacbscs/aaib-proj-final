@@ -1,1 +1,4 @@
 Record mathematical expression to compute.
+6*3*(2+2)=
+72
+/

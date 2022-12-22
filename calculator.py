@@ -4,6 +4,8 @@ import paho.mqtt.client as mqtt
 import time
 from streamlit_autorefresh import st_autorefresh
 
+st.title('Calculator')
+
 client = mqtt.Client("calc_aaib")
 client.connect("mqtt.eclipseprojects.io", 1883, 60)
 
@@ -24,20 +26,26 @@ with col3:
             st.experimental_rerun()
 with col4:
     if st.button('REC'):
-        #client.publish("AAIB-TL", payload="start")
+        client.publish("AAIB-TL", payload="start")
         #with st.spinner('Wait for it...'):
-        #    time.sleep(8)
+        #    time.sleep(15)
         #    st.success('Done!')
         last = read_expression()
         print(last[-1])
         if last[-1] != '=':
             result = last
         else:
+            expression = last
             result = eval(last[:-1])
-            
+            total = last + str(result)
+            with open('previous_calculations.txt', 'a') as f:
+                f.write(total+'\n')
+                f.close()
+
         with open('expression.txt', 'a') as f:
             f.write('\n')
             f.write(str(result))
+            f.close()
         st.experimental_rerun()
 
 components.html(
@@ -100,7 +108,23 @@ components.html(
         </table>
     </body> 
     """,
-    height=400,
+    height=320,
 )
 
-
+with st.container():
+    f = open('previous_calculations.txt', 'r')
+    prev_calc = f.readlines()
+    f.close()
+    try:
+        st.markdown('Previous calculations:')
+        st.text(prev_calc[-1])
+    except IndexError:
+        pass
+    try:
+        st.text(prev_calc[-2])
+    except IndexError:
+        pass
+    try:
+        st.text(prev_calc[-2])
+    except IndexError:
+        pass
