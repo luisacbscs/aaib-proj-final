@@ -72,10 +72,7 @@ with col5:
 with col6:
     if st.button('REC', key = 1):
         client.publish("AAIB-TL", payload="start")
-        #with st.spinner('Wait for it...'):
-        #    time.sleep(15)
-        #    st.success('Done!')
-            
+        time.sleep(15)
         st.experimental_rerun()
 
 with col03:
@@ -249,12 +246,10 @@ with col8:
 with col9:
     if st.button('REC', key=2):
         client.publish("AAIB-TL", payload="start")
-        time.sleep(10)
-        f = open('expression.txt', 'r')
-        lines = f.readlines()
-        f.close()
+        time.sleep(15)
+        last = read_expression('expression.txt')
         try:
-            number = lines[-1]
+            number = last[-1]
             with open('m.txt', 'w') as f:
                 f.write(number)
         except IndexError:
@@ -271,12 +266,10 @@ with col11:
 with col12:
     if st.button('REC', key=3):
         client.publish("AAIB-TL", payload="start")
-        time.sleep(10)
-        f = open('expression.txt', 'r')
-        lines = f.readlines()
-        f.close()
+        time.sleep(15)
+        last = read_expression('expression.txt')
         try:
-            number = lines[-1]
+            number = last[-1]
             with open('b.txt', 'w') as f:
                 f.write(number)
         except IndexError:
