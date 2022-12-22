@@ -6,6 +6,7 @@ from streamlit_autorefresh import st_autorefresh
 import matplotlib.pyplot as plt
 import numpy as np
 from expand import expand
+from math import sqrt
 
 st.set_page_config(page_title='Voice Calculator', page_icon='🎙')
 
