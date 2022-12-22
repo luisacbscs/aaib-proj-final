@@ -11,7 +11,7 @@ def on_message(mqttc, obj, msg):
     #print(type(m_in))
 
     with open('expression.txt', 'a') as f:
-        f.write('\n')
+        #f.write('\n')
         f.write(str(m_decode))
         f.close()
           
