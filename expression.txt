@@ -1,3 +1,5 @@
 Record mathematical expression to compute.
 6+6
 12
+6^2
+(2x+3)^
