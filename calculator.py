@@ -5,7 +5,6 @@ import time
 from streamlit_autorefresh import st_autorefresh
 import matplotlib.pyplot as plt
 import numpy as np
-from math import comb
 from expand import expand
 
 st.set_page_config(page_title='Voice Calculator', page_icon='🎙')
@@ -32,8 +31,12 @@ with col2:
 with col3:
     if st.button('='):
         expression = read_expression('expression.txt')
-        result = eval(expression.replace('^','**'))
-        total = expression + ' = ' +str(result)
+        try:
+            result = eval(expression.replace('^','**'))
+            total = expression + ' = ' +str(result)
+        except SyntaxError:
+            total = 'Syntax Error'
+            result = 'Syntax Error'
         with open('previous_calculations.txt', 'a') as f:
             f.write(total+'\n')
             f.close()
@@ -45,8 +48,12 @@ with col3:
 with col4:
     if st.button('(a+b)ⁿ'):
         expression = read_expression('expression.txt')
-        result = expand(expression)
-        total = expression + ' = ' +str(result)
+        try:
+            result = expand(expression)
+            total = expression + ' = ' +str(result)
+        except SyntaxError:
+            total = 'Syntax Error'
+            result = 'Syntax Error'
         with open('previous_calculations.txt', 'a') as f:
             f.write(total+'\n')
             f.close()
