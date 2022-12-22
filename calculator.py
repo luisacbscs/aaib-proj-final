@@ -17,37 +17,42 @@ def read_expression():
     f.close()
     return lines[-1]
 
-col1, col2, col3, col4 = st.columns([1, 10, 1, 2],gap="small")
+col1, col2, col3, col4, col5, col6 = st.columns([1, 8, 1, 2, 1, 2], gap="small")
 
 with col2:
     st.markdown(read_expression())
 with col3:
-    if st.button('C'):
-        with open('expression.txt', 'w') as f:
-            f.write('Record mathematical expression to compute.')
-            st.experimental_rerun()
-with col4:
-    if st.button('REC'):
-        client.publish("AAIB-TL", payload="start")
-        #with st.spinner('Wait for it...'):
-        #    time.sleep(15)
-        #    st.success('Done!')
-        last = read_expression()
-        print(last[-1])
-        if last[-1] != '=':
-            result = last
-        else:
-            expression = last
-            result = eval(last[:-1])
-            total = last + str(result)
-            with open('previous_calculations.txt', 'a') as f:
-                f.write(total+'\n')
-                f.close()
+    if st.button('='):
+        f = open('expression.txt', 'r')
+        lines = f.readlines()
+        f.close()
+        expression = lines[-1]
+        result = eval(expression)
+        total = expression + ' = ' +str(result)
+        with open('previous_calculations.txt', 'a') as f:
+            f.write(total+'\n')
+            f.close()
 
         with open('expression.txt', 'a') as f:
             f.write('\n')
             f.write(str(result))
             f.close()
+        st.experimental_rerun()
+with col4:
+    st.button('(a+b)ⁿ')
+
+with col5:
+    if st.button('C'):
+        with open('expression.txt', 'w') as f:
+            f.write('Record mathematical expression to compute.')
+            st.experimental_rerun()
+with col6:
+    if st.button('REC'):
+        client.publish("AAIB-TL", payload="start")
+        #with st.spinner('Wait for it...'):
+        #    time.sleep(15)
+        #    st.success('Done!')
+            
         st.experimental_rerun()
 
 components.html(
