@@ -13,7 +13,7 @@ st.set_page_config(page_title='Voice Calculator', page_icon='🎙')
 st.title('Calculator')
 
 client = mqtt.Client("calc_aaib")
-client.connect("mqtt.eclipseprojects.io", 1883, 60)
+client.connect("192.168.1.98", 1883, 60)
 
 def read_expression(filename):
     f = open(filename, 'r')
@@ -72,9 +72,8 @@ with col5:
 with col6:
     if st.button('REC', key = 1):
         client.publish("AAIB-TL", payload="start")
-        time.sleep(15)
+        time.sleep(22)
         st.experimental_rerun()
-
 with col03:
     if st.button('×'):
         with open('expression.txt', 'a') as f:
@@ -246,7 +245,7 @@ with col8:
 with col9:
     if st.button('REC', key=2):
         client.publish("AAIB-TL", payload="start")
-        time.sleep(15)
+        time.sleep(22)
         last = read_expression('expression.txt')
         try:
             number = last[-1]
@@ -268,7 +267,7 @@ with col11:
 with col12:
     if st.button('REC', key=3):
         client.publish("AAIB-TL", payload="start")
-        time.sleep(15)
+        time.sleep(22)
         last = read_expression('expression.txt')
         try:
             number = last[-1]
@@ -326,4 +325,3 @@ else:
                     b = 0
                 x = np.arange(-100,100,0.1)
                 plot_graph(sin(x,m,b))
-
