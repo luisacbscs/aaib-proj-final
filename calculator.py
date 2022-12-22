@@ -13,7 +13,7 @@ st.set_page_config(page_title='Voice Calculator', page_icon='🎙')
 st.title('Calculator')
 
 client = mqtt.Client("calc_aaib")
-client.connect("192.168.1.98", 1883, 60)
+client.connect("mqtt.eclipseprojects.io", 1883, 60)
 
 def read_expression(filename):
     f = open(filename, 'r')
@@ -26,7 +26,7 @@ def read_expression(filename):
     return last
 
 col1, col2, col3, col4, col5, col6 = st.columns([1, 8, 1, 2, 1, 2], gap="small")
-col01, col02, col03, col04, col05, col06, col07, col08, col09, col010 = st.columns([1, 6, 1, 1, 1, 1, 1, 1, 1, 1], gap="small")
+col01, col02, col03, col04, col05, col06, col07, col08, col09, col010 = st.columns([6, 1, 1, 1, 1, 1, 1, 1, 1, 1], gap="small")
 
 with col2:
     st.markdown(read_expression('expression.txt'))
@@ -74,52 +74,58 @@ with col6:
         client.publish("AAIB-TL", payload="start")
         time.sleep(22)
         st.experimental_rerun()
-with col03:
+with col02:
     if st.button('×'):
         with open('expression.txt', 'a') as f:
             f.write('*')
             f.close()
         st.experimental_rerun()
-with col04:
+with col03:
     if st.button('÷'):
         with open('expression.txt', 'a') as f:
             f.write('/')
             f.close()
         st.experimental_rerun()
-with col05:
+with col04:
     if st.button('+'):
         with open('expression.txt', 'a') as f:
             f.write('+')
             f.close()
         st.experimental_rerun()
-with col06:
+with col05:
     if st.button('−'):
         with open('expression.txt', 'a') as f:
             f.write('-')
             f.close()
         st.experimental_rerun()
-with col07:
+with col06:
     if st.button('^'):
         with open('expression.txt', 'a') as f:
             f.write('^')
             f.close()
         st.experimental_rerun()
-with col08:
+with col07:
     if st.button('√'):
         with open('expression.txt', 'a') as f:
             f.write('sqrt')
             f.close()
         st.experimental_rerun()
-with col09:
+with col08:
     if st.button('('):
         with open('expression.txt', 'a') as f:
             f.write('(')
             f.close()
         st.experimental_rerun()
-with col010:
+with col09:
     if st.button(')'):
         with open('expression.txt', 'a') as f:
             f.write(')')
+            f.close()
+        st.experimental_rerun()
+with col010:
+    if st.button('𝑥'):
+        with open('expression.txt', 'a') as f:
+            f.write('x')
             f.close()
         st.experimental_rerun()
         
