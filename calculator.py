@@ -226,7 +226,7 @@ def sin(x, m, b):
 
 plot = st.radio(
     "Select a function to plot:",
-    ('f(𝑥)=m 𝑥 + b', 'f(𝑥)=m 𝑥² + b', 'f(𝑥) = m eˣ + b', 'f(𝑥)=m sin(𝑥 + b)'))
+    ('f(𝑥) = m 𝑥 + b', 'f(𝑥) = m 𝑥² + b', 'f(𝑥) = m eˣ + b', 'f(𝑥) = m sin(𝑥 + b)'))
 
 st.markdown('Record constants m and b:')
 col7, col8, col9, col10, col11, col12, col13 = st.columns([1, 1, 2, 1, 1, 2, 6], gap="small")
@@ -273,7 +273,7 @@ with col12:
             pass
         clear_expression()
         st.experimental_rerun()
-if plot == 'f(𝑥)=m 𝑥 + b':
+if plot == 'f(𝑥) = m 𝑥 + b':
     try:
         m = int(read_expression('m.txt'))
     except:
@@ -285,7 +285,7 @@ if plot == 'f(𝑥)=m 𝑥 + b':
     x = np.arange(-100,100,0.1)
     plot_graph(line(x,m,b))
 else:
-    if plot == 'f(𝑥)=m 𝑥² + b':
+    if plot == 'f(𝑥) = m 𝑥² + b':
         try:
             m = int(read_expression('m.txt'))
         except:
@@ -309,7 +309,7 @@ else:
             x = np.arange(-100,100,0.1)
             plot_graph(exp(x,m,b))
         else:
-            if plot == 'f(𝑥)=m sin(𝑥 + b)':
+            if plot == 'f(𝑥) = m sin(𝑥 + b)':
                 try:
                     m = int(read_expression('m.txt'))
                 except:
