@@ -25,6 +25,11 @@ def read_expression(filename):
         last = ''
     return last
 
+def append_expression(filename, string):
+    with open(filename, 'a') as f:
+            f.write(string)
+            f.close()
+
 col1, col2, col3, col4, col5, col6 = st.columns([1, 8, 1, 2, 1, 2], gap="small")
 col01, col02, col03, col04, col05, col06, col07, col08, col09, col010 = st.columns([6, 1, 1, 1, 1, 1, 1, 1, 1, 1], gap="small")
 
@@ -76,57 +81,39 @@ with col6:
         st.experimental_rerun()
 with col02:
     if st.button('×'):
-        with open('expression.txt', 'a') as f:
-            f.write('*')
-            f.close()
+        append_expression('expression.txt', '*')
         st.experimental_rerun()
 with col03:
     if st.button('÷'):
-        with open('expression.txt', 'a') as f:
-            f.write('/')
-            f.close()
+        append_expression('expression.txt', '/')
         st.experimental_rerun()
 with col04:
     if st.button('+'):
-        with open('expression.txt', 'a') as f:
-            f.write('+')
-            f.close()
+        append_expression('expression.txt', '+')
         st.experimental_rerun()
 with col05:
     if st.button('−'):
-        with open('expression.txt', 'a') as f:
-            f.write('-')
-            f.close()
+        append_expression('expression.txt', '-')
         st.experimental_rerun()
 with col06:
     if st.button('^'):
-        with open('expression.txt', 'a') as f:
-            f.write('^')
-            f.close()
+        append_expression('expression.txt', '^')
         st.experimental_rerun()
 with col07:
     if st.button('√'):
-        with open('expression.txt', 'a') as f:
-            f.write('sqrt')
-            f.close()
+        append_expression('expression.txt', 'sqrt')
         st.experimental_rerun()
 with col08:
     if st.button('('):
-        with open('expression.txt', 'a') as f:
-            f.write('(')
-            f.close()
+        append_expression('expression.txt', '(')
         st.experimental_rerun()
 with col09:
     if st.button(')'):
-        with open('expression.txt', 'a') as f:
-            f.write(')')
-            f.close()
+        append_expression('expression.txt', ')')
         st.experimental_rerun()
 with col010:
     if st.button('𝑥'):
-        with open('expression.txt', 'a') as f:
-            f.write('x')
-            f.close()
+        append_expression('expression.txt', 'x')
         st.experimental_rerun()
         
 
