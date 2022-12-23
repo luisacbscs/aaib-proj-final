@@ -48,7 +48,7 @@ with col3:
             f.close()
         st.experimental_rerun()
 with col4:
-    if st.button('(a+b)ⁿ'):
+    if st.button('(a𝑥+b)ⁿ'):
         expression = read_expression('expression.txt')
         try:
             result = expand(expression)
@@ -235,7 +235,7 @@ def sin(x, m, b):
 
 plot = st.radio(
     "Select a function to plot:",
-    ('f(x)=mx+b', 'f(x)=mx^2+b', 'f(x)=m*e^x+b', 'f(x)=m*sin(x+b)'))
+    ('f(𝑥)=m 𝑥 + b', 'f(𝑥)=m 𝑥² + b', 'f(𝑥) = m eˣ + b', 'f(𝑥)=m sin(𝑥 + b)'))
 
 st.markdown('Record constants m and b:')
 col7, col8, col9, col10, col11, col12, col13 = st.columns([1, 1, 2, 1, 1, 2, 6], gap="small")
@@ -284,7 +284,7 @@ with col12:
         with open('expression.txt', 'w') as f:
             f.write('Record mathematical expression to compute.\n')
         st.experimental_rerun()
-if plot == 'f(x)=mx+b':
+if plot == 'f(𝑥)=m 𝑥 + b':
     try:
         m = int(read_expression('m.txt'))
     except:
@@ -296,7 +296,7 @@ if plot == 'f(x)=mx+b':
     x = np.arange(-100,100,0.1)
     plot_graph(line(x,m,b))
 else:
-    if plot == 'f(x)=mx^2+b':
+    if plot == 'f(𝑥)=m 𝑥² + b':
         try:
             m = int(read_expression('m.txt'))
         except:
@@ -308,7 +308,7 @@ else:
         x = np.arange(-100,100,0.1)
         plot_graph(square(x,m,b))
     else:
-        if plot == 'f(x)=m*e^x+b':
+        if plot == 'f(𝑥) = m eˣ + b':
             try:
                 m = int(read_expression('m.txt'))
             except:
@@ -320,7 +320,7 @@ else:
             x = np.arange(-100,100,0.1)
             plot_graph(exp(x,m,b))
         else:
-            if plot == 'f(x)=m*sin(x+b)':
+            if plot == 'f(𝑥)=m sin(𝑥 + b)':
                 try:
                     m = int(read_expression('m.txt'))
                 except:
