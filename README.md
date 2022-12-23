@@ -4,6 +4,7 @@ Luísa CastelBranco Silva 55695 MIEB
 
 Tiago Coelho 55097 MIEB
 
+AAIB Project --> Ficheiros Relacionados com o modelo de Machine Learning
 
 .gitpod.yml --> Inicialização do gitpod
 
