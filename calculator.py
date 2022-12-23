@@ -30,6 +30,11 @@ def append_expression(filename, string):
             f.write(string)
             f.close()
 
+def clear_expression():
+    with open('expression.txt', 'w') as f:
+            f.write('Record mathematical expression to compute.\n')
+            f.close()
+
 col1, col2, col3, col4, col5, col6 = st.columns([1, 8, 1, 2, 1, 2], gap="small")
 col01, col02, col03, col04, col05, col06, col07, col08, col09, col010 = st.columns([6, 1, 1, 1, 1, 1, 1, 1, 1, 1], gap="small")
 
@@ -71,9 +76,8 @@ with col4:
         st.experimental_rerun()
 with col5:
     if st.button('C'):
-        with open('expression.txt', 'w') as f:
-            f.write('Record mathematical expression to compute.\n')
-            st.experimental_rerun()
+        clear_expression()
+        st.experimental_rerun()
 with col6:
     if st.button('REC', key = 1):
         client.publish("AAIB-TL", payload="start")
@@ -246,8 +250,7 @@ with col9:
                 f.write(number)
         except IndexError:
             pass
-        with open('expression.txt', 'w') as f:
-            f.write('Record mathematical expression to compute.\n')
+        clear_expression()
         st.experimental_rerun()
 with col10:
     st.markdown('b:')
@@ -268,8 +271,7 @@ with col12:
                 f.write(number)
         except IndexError:
             pass
-        with open('expression.txt', 'w') as f:
-            f.write('Record mathematical expression to compute.\n')
+        clear_expression()
         st.experimental_rerun()
 if plot == 'f(𝑥)=m 𝑥 + b':
     try:
