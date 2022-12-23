@@ -1,4 +1,4 @@
-# aaib-proj-final
+# aaib-proj-final: Projeto Final de AAIB - Interface de Cálculo controlada pela Fala
 
 Luísa CastelBranco Silva 55695 MIEB
 Tiago Coelho 55097 MIEB
