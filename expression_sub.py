@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import json
 
+
 def on_connect(mqttc, obj, flags, rc):
     print("rc: " + str(rc))
 

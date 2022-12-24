@@ -1,5 +1,6 @@
 from math import comb
 
+
 def expand(s):
     s = s.replace('(','')
     s = s.replace(')','')

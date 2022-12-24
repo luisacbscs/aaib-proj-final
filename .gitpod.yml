@@ -3,7 +3,7 @@ tasks:
   - name: Terminal 1
     init:  |
       npm install -g json
-      python -m pip install scipy  
+      python -m pip install scipy
       sudo pip3 install streamlit
       sudo pip3 install streamlit-autorefresh
       sudo apt install -y mosquitto

@@ -8,6 +8,7 @@ import numpy as np
 from expand import expand
 from math import sqrt
 
+
 st.set_page_config(page_title='Speech Calc', page_icon='🎙')
 
 st.title('Calculator')
