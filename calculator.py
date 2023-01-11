@@ -92,6 +92,10 @@ with col4:
             f.write('\n')
             f.write(str(result))
             f.close()
+        with open('plot.txt', 'a') as f:
+            f.write('\n')
+            f.write(str(result))
+            f.close()
         st.experimental_rerun()
 
 with col5:
@@ -237,28 +241,29 @@ with st.container():
 #--------------------------------------------------------------------------------------------------PLOT
 st.title('Plot')
 
-p1, p2, p3, p4, p5, p6 = st.columns([1, 2, 12, 2, 2, 1], gap="small")
-p01, p02, p03, p04, p05, p06, p07, p08, p09, p010, p011 = st.columns([5, 1, 1, 1, 1, 1, 1, 1, 1, 1.5, 1], gap="small")
+p1, p2, p3, p4, p5, p6 = st.columns([2, 10, 1, 2, 1, 2], gap="small")
+p01, p02, p03, p04, p05, p06, p07, p08, p09, p010 = st.columns([5, 1, 1, 1, 1, 1, 1, 1, 1, 1], gap="small")
+p011, p012, p013, p014, p015 = st.columns([10, 2, 2, 2, 2], gap="small")
 
 #--------------------------------------------------------------------------COMMANDS
-with p2:
+with p1:
     st.markdown('f(𝑥) =')
 
-with p3:
+with p2:
     st.markdown(read_expression('plot.txt'))
 
 with p4:
+    plt_button = st.button('Plot', key = 'plt')
+
+with p5:
+    if st.button('C', key = 'plt_clear'):
+        clear_expression('plot.txt')
+        st.experimental_rerun()
+
+with p6:
     if st.button('REC', key = 'plt_rec'):
         client.publish("AAIB-TL", payload="start")
         time.sleep(22)
-        st.experimental_rerun()
-
-with p5:
-    plt_button = st.button('Plot', key = 'plt')
-
-with p6:
-    if st.button('C', key = 'plt_clear'):
-        clear_expression('plot.txt')
         st.experimental_rerun()
 
 #--------------------------------------------------------------------------OPERATIONS
@@ -304,13 +309,29 @@ with p09:
         st.experimental_rerun()
 
 with p010:
-    if st.button('exp', key = 'plt_e'):
-        append_expression('plot.txt', 'exp')
-        st.experimental_rerun()
-
-with p011:
     if st.button('𝑥', key = 'plt_x'):
         append_expression('plot.txt', 'x')
+        st.experimental_rerun()
+
+#--------------------------------------------------------------------------FUNCTIONS
+with p012:
+    if st.button('exp', key = 'plt_exp'):
+        append_expression('plot.txt', 'exp(')
+        st.experimental_rerun()
+
+with p013:
+    if st.button('sin', key = 'plt_sin'):
+        append_expression('plot.txt', 'sin(')
+        st.experimental_rerun()
+
+with p014:
+    if st.button('cos', key = 'plt_cos'):
+        append_expression('plot.txt', 'cos(')
+        st.experimental_rerun()
+
+with p015:
+    if st.button('tan', key = 'plt_tan'):
+        append_expression('plot.txt', 'tan(')
         st.experimental_rerun()
 
 if plt_button == True:
