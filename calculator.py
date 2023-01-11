@@ -93,8 +93,8 @@ with col03:
         append_expression('expression.txt', '/')
         st.experimental_rerun()
 with col04:
-    if st.button('+'):
-        append_expression('expression.txt', '+')
+    if st.button('\+'):
+        append_expression('expression.txt', '˖')
         st.experimental_rerun()
 with col05:
     if st.button('−'):
@@ -238,7 +238,7 @@ with col8:
     try:
         m = int(read_expression('m.txt'))
     except ValueError:
-        m = 'NaN'
+        m = ''
     st.markdown(m)
 with col9:
     if st.button('REC', key=2):
@@ -259,7 +259,7 @@ with col11:
     try:
         b = int(read_expression('b.txt'))
     except ValueError:
-        b = 'NaN'
+        b = ''
     st.markdown(b)
 with col12:
     if st.button('REC', key=3):
