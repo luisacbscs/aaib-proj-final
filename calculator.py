@@ -7,11 +7,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from expand import expand
 from math import sqrt
-
+from str_to_func import str_to_func
 
 st.set_page_config(page_title='Speech Calc', page_icon='🎙')
-
-st.title('Calculator')
 
 client = mqtt.Client("calc_aaib")
 client.connect("mqtt.eclipseprojects.io", 1883, 60)
@@ -31,16 +29,34 @@ def append_expression(filename, string):
             f.write(string)
             f.close()
 
-def clear_expression():
-    with open('expression.txt', 'w') as f:
-            f.write('Record mathematical expression to compute.\n')
-            f.close()
+def clear_expression(filename):
+    if filename == 'expression.txt':
+        with open(filename, 'w') as f:
+                f.write('Record mathematical expression to compute.\n')
+                f.close()
+    else:
+        with open(filename, 'w') as f:
+                f.write('Record function to plot.\n')
+                f.close()
+
+def plot_graph(f):    
+    fig = plt.figure(figsize=(20, 10))
+    plt.plot(x, f, color='#DAF7A6', linewidth=3)
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.grid('on')
+    st.pyplot(fig)
+
+#--------------------------------------------------------------------------------------------------CALCULATOR
+st.title('Calculator')
 
 col1, col2, col3, col4, col5, col6 = st.columns([1, 8, 1, 2, 1, 2], gap="small")
 col01, col02, col03, col04, col05, col06, col07, col08, col09, col010 = st.columns([6, 1, 1, 1, 1, 1, 1, 1, 1, 1], gap="small")
 
+#--------------------------------------------------------------------------COMMANDS
 with col2:
     st.markdown(read_expression('expression.txt'))
+
 with col3:
     if st.button('='):
         expression = read_expression('expression.txt')
@@ -50,6 +66,7 @@ with col3:
         except SyntaxError:
             total = 'Syntax Error'
             result = 'Syntax Error'
+        
         with open('previous_calculations.txt', 'a') as f:
             f.write(total+'\n')
             f.close()
@@ -58,6 +75,7 @@ with col3:
             f.write(str(result))
             f.close()
         st.experimental_rerun()
+
 with col4:
     if st.button('(a𝑥+b)ⁿ'):
         expression = read_expression('expression.txt')
@@ -75,53 +93,65 @@ with col4:
             f.write(str(result))
             f.close()
         st.experimental_rerun()
+
 with col5:
     if st.button('C'):
-        clear_expression()
+        clear_expression('expression.txt')
         st.experimental_rerun()
+
 with col6:
     if st.button('REC', key = 1):
-        client.publish("AAIB-TL", payload="start")
+        client.publish("AAIB-TL", payload="cstart")
         time.sleep(22)
         st.experimental_rerun()
+
+#--------------------------------------------------------------------------OPERATIONS
 with col02:
     if st.button('×'):
         append_expression('expression.txt', '*')
         st.experimental_rerun()
+
 with col03:
     if st.button('÷'):
         append_expression('expression.txt', '/')
         st.experimental_rerun()
+
 with col04:
     if st.button('\+'):
         append_expression('expression.txt', '˖')
         st.experimental_rerun()
+
 with col05:
     if st.button('−'):
         append_expression('expression.txt', '-')
         st.experimental_rerun()
+
 with col06:
     if st.button('^'):
         append_expression('expression.txt', '^')
         st.experimental_rerun()
+
 with col07:
     if st.button('√'):
         append_expression('expression.txt', 'sqrt')
         st.experimental_rerun()
+
 with col08:
     if st.button('('):
         append_expression('expression.txt', '(')
         st.experimental_rerun()
+
 with col09:
     if st.button(')'):
         append_expression('expression.txt', ')')
         st.experimental_rerun()
+
 with col010:
     if st.button('𝑥'):
         append_expression('expression.txt', 'x')
         st.experimental_rerun()
         
-
+#--------------------------------------------------------------------------HTML CALCULATOR
 components.html(
     """  
     <head>
@@ -185,6 +215,7 @@ components.html(
     height=320,
 )
 
+#--------------------------------------------------------------------------PREVIOUS CALCULATIONS
 with st.container():
     f = open('previous_calculations.txt', 'r')
     prev_calc = f.readlines()
@@ -203,121 +234,88 @@ with st.container():
     except IndexError:
         pass
 
+#--------------------------------------------------------------------------------------------------PLOT
 st.title('Plot')
 
-def plot_graph(f):    
-    fig = plt.figure(figsize=(20, 10))
-    plt.plot(x, f, color='#DAF7A6', linewidth=3)
-    plt.xlabel("x")
-    plt.ylabel("y")
-    plt.grid('on')
-    st.pyplot(fig)
+p1, p2, p3, p4, p5, p6 = st.columns([1, 2, 12, 2, 2, 1], gap="small")
+p01, p02, p03, p04, p05, p06, p07, p08, p09, p010, p011 = st.columns([5, 1, 1, 1, 1, 1, 1, 1, 1, 1.5, 1], gap="small")
 
-def line(x, m, b):
-    return x*m+b
+#--------------------------------------------------------------------------COMMANDS
+with p2:
+    st.markdown('f(𝑥) =')
 
-def square(x, m, b):
-    return m*(x**2)+b
+with p3:
+    st.markdown(read_expression('plot.txt'))
 
-def exp(x, m, b):
-    return m*(np.exp(x))+b
-
-def sin(x, m, b):
-    return m*(np.sin(x + b))
-
-plot = st.radio(
-    "Select a function to plot:",
-    ('f(𝑥) = m 𝑥 + b', 'f(𝑥) = m 𝑥² + b', 'f(𝑥) = m eˣ + b', 'f(𝑥) = m sin(𝑥 + b)'))
-
-st.markdown('Record constants m and b:')
-col7, col8, col9, col10, col11, col12, col13 = st.columns([1, 1, 2, 1, 1, 2, 6], gap="small")
-
-with col7:
-    st.markdown('m:')
-with col8:
-    try:
-        m = int(read_expression('m.txt'))
-    except ValueError:
-        m = ''
-    st.markdown(m)
-with col9:
-    if st.button('REC', key=2):
+with p4:
+    if st.button('REC', key = 'plt_rec'):
         client.publish("AAIB-TL", payload="start")
         time.sleep(22)
-        last = read_expression('expression.txt')
-        try:
-            number = last[-1]
-            with open('m.txt', 'w') as f:
-                f.write(number)
-        except IndexError:
-            pass
-        clear_expression()
         st.experimental_rerun()
-with col10:
-    st.markdown('b:')
-with col11:
-    try:
-        b = int(read_expression('b.txt'))
-    except ValueError:
-        b = ''
-    st.markdown(b)
-with col12:
-    if st.button('REC', key=3):
-        client.publish("AAIB-TL", payload="start")
-        time.sleep(22)
-        last = read_expression('expression.txt')
-        try:
-            number = last[-1]
-            with open('b.txt', 'w') as f:
-                f.write(number)
-        except IndexError:
-            pass
-        clear_expression()
+
+with p5:
+    plt_button = st.button('Plot', key = 'plt')
+
+with p6:
+    if st.button('C', key = 'plt_clear'):
+        clear_expression('plot.txt')
         st.experimental_rerun()
-if plot == 'f(𝑥) = m 𝑥 + b':
-    try:
-        m = int(read_expression('m.txt'))
-    except:
-        m = 0
-    try:
-        b = int(read_expression('b.txt'))
-    except:
-        b = 0
+
+#--------------------------------------------------------------------------OPERATIONS
+with p02:
+    if st.button('×', key = 'plt_t'):
+        append_expression('plot.txt', '*')
+        st.experimental_rerun()
+
+with p03:
+    if st.button('÷', key = 'plt_d'):
+        append_expression('plot.txt', '/')
+        st.experimental_rerun()
+
+with p04:
+    if st.button('\+', key = 'plt_p'):
+        append_expression('plot.txt', '˖')
+        st.experimental_rerun()
+
+with p05:
+    if st.button('−', key = 'plt_m'):
+        append_expression('plot.txt', '-')
+        st.experimental_rerun()
+
+
+with p06:
+    if st.button('^', key = 'plt_pwr'):
+        append_expression('plot.txt', '^')
+        st.experimental_rerun()
+
+with p07:
+    if st.button('√', key = 'plt_s'):
+        append_expression('plot.txt', 'sqrt')
+        st.experimental_rerun()
+
+with p08:
+    if st.button('(', key = 'plt_o'):
+        append_expression('plot.txt', '(')
+        st.experimental_rerun()
+
+with p09:
+    if st.button(')', key = 'plt_c'):
+        append_expression('plot.txt', ')')
+        st.experimental_rerun()
+
+with p010:
+    if st.button('exp', key = 'plt_e'):
+        append_expression('plot.txt', 'exp')
+        st.experimental_rerun()
+
+with p011:
+    if st.button('𝑥', key = 'plt_x'):
+        append_expression('plot.txt', 'x')
+        st.experimental_rerun()
+
+if plt_button == True:
+    expr = read_expression('plot.txt')
+    func = str_to_func(expr)
     x = np.arange(-100,100,0.1)
-    plot_graph(line(x,m,b))
-else:
-    if plot == 'f(𝑥) = m 𝑥² + b':
-        try:
-            m = int(read_expression('m.txt'))
-        except:
-            m = 0
-        try:
-            b = int(read_expression('b.txt'))
-        except:
-            b = 0
-        x = np.arange(-100,100,0.1)
-        plot_graph(square(x,m,b))
-    else:
-        if plot == 'f(𝑥) = m eˣ + b':
-            try:
-                m = int(read_expression('m.txt'))
-            except:
-                m = 0
-            try:
-                b = int(read_expression('b.txt'))
-            except:
-                b = 0
-            x = np.arange(-100,100,0.1)
-            plot_graph(exp(x,m,b))
-        else:
-            if plot == 'f(𝑥) = m sin(𝑥 + b)':
-                try:
-                    m = int(read_expression('m.txt'))
-                except:
-                    m = 0
-                try:
-                    b = int(read_expression('b.txt'))
-                except:
-                    b = 0
-                x = np.arange(-100,100,0.1)
-                plot_graph(sin(x,m,b))
+    plot_graph(func(x))
+    #st.experimental_rerun()

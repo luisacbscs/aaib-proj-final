@@ -10,11 +10,19 @@ def on_message(mqttc, obj, msg):
     m_decode=str(msg.payload.decode("utf-8","ignore"))
     #m_in=json.loads(m_decode) 
     #print(type(m_in))
+    msg = str(m_decode)
+    if msg[0] == 'c':
+        with open('expression.txt', 'a') as f:
+            #f.write('\n')
+            f.write(msg[1:])
+            f.close()
+    else:
+        if msg[0] == 'p':
+            with open('plot.txt', 'a') as f:
+                #f.write('\n')
+                f.write(msg[1:])
+                f.close()
 
-    with open('expression.txt', 'a') as f:
-        #f.write('\n')
-        f.write(str(m_decode))
-        f.close()
           
 mqttc = mqtt.Client()
 mqttc.on_message = on_message
