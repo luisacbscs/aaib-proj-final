@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def str_to_func(string):
-
+    
     replacements = {
         'sin' : 'np.sin',
         'cos' : 'np.cos',
@@ -19,7 +19,7 @@ def str_to_func(string):
         'sqrt',
         'exp',
     ]
-    
+
     for old, new in replacements.items():
         string = string.replace(old, new)
         

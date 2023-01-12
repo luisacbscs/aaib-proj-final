@@ -1,1 +1,1 @@
-Enter mathematical expression to compute.
+Record mathematical expression to compute.

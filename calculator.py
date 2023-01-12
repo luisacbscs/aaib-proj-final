@@ -40,27 +40,50 @@ def clear_expression(filename):
                 f.close()
 
 def plot_graph(f):    
-    fig = plt.figure(figsize=(20, 10))
+    fig = plt.figure(figsize=(18, 10))
     plt.plot(x, f, color='#DAF7A6', linewidth=3)
     plt.xlabel("x")
     plt.ylabel("y")
     plt.grid('on')
     st.pyplot(fig)
 
+replacements = {
+        'sin' : 'np.sin',
+        'cos' : 'np.cos',
+        'tan' : 'np.tan',
+        'π' : 'np.pi',
+        'exp': 'np.exp',
+        'sqrt': 'np.sqrt',
+        '^': '**',
+    }
+
+allowed_words = [
+        'x',
+        'sin',
+        'cos',
+        'tan',
+        'pi',
+        'sqrt',
+        'exp',
+    ]
+
 #--------------------------------------------------------------------------------------------------CALCULATOR
 st.title('Calculator')
 
-col1, col2, col3, col4, col5, col6 = st.columns([1, 8, 1, 2, 1, 2], gap="small")
-c11, c12, c13, c14, c15, c16, c17, c18, c19, c110, c111 = st.columns([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], gap="small")
-
 #--------------------------------------------------------------------------COMMANDS
-with col2:
+col0, col1, col2 = st.columns([1, 10,2], gap = "small")
+with col1:
     display = st.empty()
     display.markdown(read_expression('expression.txt'))
+    plot = st.empty()
 
-with col3:
+with col2:
     if st.button('='):
         expression = read_expression('expression.txt')
+
+        for old, new in replacements.items():
+            expression = expression.replace(old, new)
+
         try:
             result = eval(expression.replace('^','**'))
             total = expression + ' = ' +str(result)
@@ -76,8 +99,9 @@ with col3:
             f.write(str(result))
             f.close()
         st.experimental_rerun()
-
-with col4:
+    
+    plt_button = st.button('Plot', key = 'plt')
+    
     if st.button('(a𝑥+b)ⁿ'):
         expression = read_expression('expression.txt')
         try:
@@ -98,17 +122,45 @@ with col4:
             f.write(str(result))
             f.close()
         st.experimental_rerun()
-
-with col5:
+    
     if st.button('C'):
         clear_expression('expression.txt')
+        plot.empty()
         st.experimental_rerun()
-
-with col6:
+    
     if st.button('REC', key = 1):
         client.publish("AAIB-TL", payload="cstart")
         time.sleep(22)
         st.experimental_rerun()
+
+if plt_button == True:
+    try:
+        expr = read_expression('expression.txt')
+        func = str_to_func(expr)
+        x = np.arange(-100,100,0.1)
+        with plot.container():
+            plot_graph(func(x))
+    except:
+            total = 'Syntax Error'
+            result = 'Syntax Error'
+            with open('expression.txt', 'a') as f:
+                f.write('\n')
+                f.write(str(result))
+                f.close()
+    #with open('previous_calculations.txt', 'a') as f:
+    #    f.write(total+'\n')
+    #    f.close()
+
+    st.experimental_rerun()
+    with col0:
+        st.markdown('f(𝑥) =')
+    
+    #st.experimental_rerun()
+
+#c01, c02, c03, c04, c05, c06 = st.columns([4, 1, 1, 2, 1, 1], gap="small")
+c11, c12, c13, c14, c15, c16, c17, c18, c19, c110 = st.columns([1, 1, 1, 1, 1, 1, 1, 1, 1, 1], gap="small")
+c21, c22, c23, c24, c25, c26, c27, c28 = st.columns([2, 1, 1, 1, 1, 1, 1, 2], gap="small")
+
 
 #--------------------------------------------------------------------------OPERATIONS
 with c12:
@@ -141,17 +193,9 @@ with c17:
         append_expression('expression.txt', 'sqrt')
         st.experimental_rerun()
 
-    if st.button('exp', key = 'plt_exp'):
-        append_expression('plot.txt', 'exp(')
-        st.experimental_rerun()
-
 with c18:
     if st.button('('):
         append_expression('expression.txt', '(')
-        st.experimental_rerun()
-
-    if st.button('sin', key = 'plt_sin'):
-        append_expression('plot.txt', 'sin(')
         st.experimental_rerun()
 
 with c19:
@@ -159,17 +203,34 @@ with c19:
         append_expression('expression.txt', ')')
         st.experimental_rerun()
 
-    if st.button('cos', key = 'plt_cos'):
-        append_expression('plot.txt', 'cos(')
+with c22:
+    if st.button('exp', key = 'exp'):
+        append_expression('expression.txt', 'exp(')
         st.experimental_rerun()
 
-with c110:
+with c23:
+    if st.button('sin', key = 'sin'):
+        append_expression('expression.txt', 'sin(')
+        st.experimental_rerun()
+
+with c24:
+    if st.button('cos', key = 'cos'):
+        append_expression('expression.txt', 'cos(')
+        st.experimental_rerun()
+
+with c25:
+    if st.button('tan', key = 'tan'):
+        append_expression('expression.txt', 'tan(')
+        st.experimental_rerun()
+
+with c26:
+    if st.button('π', key = 'pi'):
+        append_expression('expression.txt', 'π')
+        st.experimental_rerun()
+
+with c27:
     if st.button('𝑥'):
         append_expression('expression.txt', 'x')
-        st.experimental_rerun()
-
-    if st.button('tan', key = 'plt_tan'):
-        append_expression('plot.txt', 'tan(')
         st.experimental_rerun()
        
 #--------------------------------------------------------------------------HTML CALCULATOR
@@ -243,117 +304,16 @@ with st.container():
     f.close()
     try:
         st.markdown('Previous calculations:')
-        st.text(prev_calc[-1])
+        st.text(prev_calc[-1].replace('np.', '').replace('pi', 'π'))
     except IndexError:
         pass
+    
     try:
-        st.text(prev_calc[-2])
+        st.text(prev_calc[-2].replace('np.', '').replace('pi', 'π'))
     except IndexError:
         pass
+    
     try:
-        st.text(prev_calc[-2])
+        st.text(prev_calc[-3].replace('np.', '').replace('pi', 'π'))
     except IndexError:
         pass
-
-#--------------------------------------------------------------------------------------------------PLOT
-st.title('Plot')
-
-p1, p2, p3, p4, p5, p6 = st.columns([2, 10, 1, 2, 1, 2], gap="small")
-p01, p02, p03, p04, p05, p06, p07, p08, p09, p010 = st.columns([5, 1, 1, 1, 1, 1, 1, 1, 1, 1], gap="small")
-p011, p012, p013, p014, p015 = st.columns([10, 2, 2, 2, 2], gap="small")
-
-#--------------------------------------------------------------------------COMMANDS
-with p1:
-    st.markdown('f(𝑥) =')
-
-with p2:
-    st.markdown(read_expression('plot.txt'))
-
-with p4:
-    plt_button = st.button('Plot', key = 'plt')
-
-with p5:
-    if st.button('C', key = 'plt_clear'):
-        clear_expression('plot.txt')
-        st.experimental_rerun()
-
-with p6:
-    if st.button('REC', key = 'plt_rec'):
-        client.publish("AAIB-TL", payload="start")
-        time.sleep(22)
-        st.experimental_rerun()
-
-#--------------------------------------------------------------------------OPERATIONS
-with p02:
-    if st.button('×', key = 'plt_t'):
-        append_expression('plot.txt', '*')
-        st.experimental_rerun()
-
-with p03:
-    if st.button('÷', key = 'plt_d'):
-        append_expression('plot.txt', '/')
-        st.experimental_rerun()
-
-with p04:
-    if st.button('\+', key = 'plt_p'):
-        append_expression('plot.txt', '˖')
-        st.experimental_rerun()
-
-with p05:
-    if st.button('−', key = 'plt_m'):
-        append_expression('plot.txt', '-')
-        st.experimental_rerun()
-
-
-with p06:
-    if st.button('^', key = 'plt_pwr'):
-        append_expression('plot.txt', '^')
-        st.experimental_rerun()
-
-with p07:
-    if st.button('√', key = 'plt_s'):
-        append_expression('plot.txt', 'sqrt')
-        st.experimental_rerun()
-
-with p08:
-    if st.button('(', key = 'plt_o'):
-        append_expression('plot.txt', '(')
-        st.experimental_rerun()
-
-with p09:
-    if st.button(')', key = 'plt_c'):
-        append_expression('plot.txt', ')')
-        st.experimental_rerun()
-
-with p010:
-    if st.button('𝑥', key = 'plt_x'):
-        append_expression('plot.txt', 'x')
-        st.experimental_rerun()
-
-#--------------------------------------------------------------------------FUNCTIONS
-with p012:
-    if st.button('exp', key = 'plt_exp'):
-        append_expression('plot.txt', 'exp(')
-        st.experimental_rerun()
-
-with p013:
-    if st.button('sin', key = 'plt_sin'):
-        append_expression('plot.txt', 'sin(')
-        st.experimental_rerun()
-
-with p014:
-    if st.button('cos', key = 'plt_cos'):
-        append_expression('plot.txt', 'cos(')
-        st.experimental_rerun()
-
-with p015:
-    if st.button('tan', key = 'plt_tan'):
-        append_expression('plot.txt', 'tan(')
-        st.experimental_rerun()
-
-if plt_button == True:
-    expr = read_expression('plot.txt')
-    func = str_to_func(expr)
-    x = np.arange(-100,100,0.1)
-    plot_graph(func(x))
-    #st.experimental_rerun()
