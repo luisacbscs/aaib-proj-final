@@ -51,11 +51,12 @@ def plot_graph(f):
 st.title('Calculator')
 
 col1, col2, col3, col4, col5, col6 = st.columns([1, 8, 1, 2, 1, 2], gap="small")
-col01, col02, col03, col04, col05, col06, col07, col08, col09, col010 = st.columns([6, 1, 1, 1, 1, 1, 1, 1, 1, 1], gap="small")
+c11, c12, c13, c14, c15, c16, c17, c18, c19, c110, c111 = st.columns([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], gap="small")
 
 #--------------------------------------------------------------------------COMMANDS
 with col2:
-    st.markdown(read_expression('expression.txt'))
+    display = st.empty()
+    display.markdown(read_expression('expression.txt'))
 
 with col3:
     if st.button('='):
@@ -110,51 +111,67 @@ with col6:
         st.experimental_rerun()
 
 #--------------------------------------------------------------------------OPERATIONS
-with col02:
+with c12:
     if st.button('×'):
         append_expression('expression.txt', '*')
         st.experimental_rerun()
 
-with col03:
+with c13:
     if st.button('÷'):
         append_expression('expression.txt', '/')
         st.experimental_rerun()
 
-with col04:
+with c14:
     if st.button('\+'):
         append_expression('expression.txt', '˖')
         st.experimental_rerun()
 
-with col05:
+with c15:
     if st.button('−'):
         append_expression('expression.txt', '-')
         st.experimental_rerun()
 
-with col06:
+with c16:
     if st.button('^'):
         append_expression('expression.txt', '^')
         st.experimental_rerun()
 
-with col07:
+with c17:
     if st.button('√'):
         append_expression('expression.txt', 'sqrt')
         st.experimental_rerun()
 
-with col08:
+    if st.button('exp', key = 'plt_exp'):
+        append_expression('plot.txt', 'exp(')
+        st.experimental_rerun()
+
+with c18:
     if st.button('('):
         append_expression('expression.txt', '(')
         st.experimental_rerun()
 
-with col09:
+    if st.button('sin', key = 'plt_sin'):
+        append_expression('plot.txt', 'sin(')
+        st.experimental_rerun()
+
+with c19:
     if st.button(')'):
         append_expression('expression.txt', ')')
         st.experimental_rerun()
 
-with col010:
+    if st.button('cos', key = 'plt_cos'):
+        append_expression('plot.txt', 'cos(')
+        st.experimental_rerun()
+
+with c110:
     if st.button('𝑥'):
         append_expression('expression.txt', 'x')
         st.experimental_rerun()
-        
+
+    if st.button('tan', key = 'plt_tan'):
+        append_expression('plot.txt', 'tan(')
+        st.experimental_rerun()
+       
 #--------------------------------------------------------------------------HTML CALCULATOR
 components.html(
     """  
