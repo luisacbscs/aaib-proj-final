@@ -7,6 +7,8 @@ def str_to_func(string):
     replacements = {
         'sin' : 'np.sin',
         'cos' : 'np.cos',
+        'tan' : 'np.tan',
+        'π' : 'np.pi',
         'exp': 'np.exp',
         'sqrt': 'np.sqrt',
         '^': '**',
@@ -16,18 +18,14 @@ def str_to_func(string):
         'x',
         'sin',
         'cos',
+        'tan',
+        'pi',
         'sqrt',
         'exp',
     ]
 
     for old, new in replacements.items():
         string = string.replace(old, new)
-        
-    alg = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
-    for char in range(len(string)):
-        if string[char] == 'x':
-            if string[char-1] in alg:
-                string = string[:char]+'*'+string[char:]
 
     def func(x):
         return eval(string)

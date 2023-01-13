@@ -125,8 +125,8 @@ with col2:
         st.experimental_rerun()
     
     if st.button('REC', key = 1):
-        client.publish("AAIB-TL", payload="cstart")
-        time.sleep(22)
+        client.publish("AAIB-TL", payload="start")
+        time.sleep(10)
         st.experimental_rerun()
 
 if plt_button == True:
