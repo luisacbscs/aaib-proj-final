@@ -41,7 +41,7 @@ def clear_expression(filename):
 
 def plot_graph(f):    
     fig = plt.figure(figsize=(18, 10))
-    plt.plot(x, f, color='#DAF7A6', linewidth=3)
+    plt.plot(f, color='#DAF7A6', linewidth=3)
     plt.xlabel("x")
     plt.ylabel("y")
     plt.grid('on')
@@ -117,10 +117,6 @@ with col2:
             f.write('\n')
             f.write(str(result))
             f.close()
-        with open('plot.txt', 'a') as f:
-            f.write('\n')
-            f.write(str(result))
-            f.close()
         st.experimental_rerun()
     
     if st.button('C'):
@@ -134,27 +130,26 @@ with col2:
         st.experimental_rerun()
 
 if plt_button == True:
+    expr = read_expression('expression.txt')
     try:
-        expr = read_expression('expression.txt')
         func = str_to_func(expr)
         x = np.arange(-100,100,0.1)
         with plot.container():
             plot_graph(func(x))
     except:
-            total = 'Syntax Error'
-            result = 'Syntax Error'
-            with open('expression.txt', 'a') as f:
-                f.write('\n')
-                f.write(str(result))
-                f.close()
-    #with open('previous_calculations.txt', 'a') as f:
-    #    f.write(total+'\n')
-    #    f.close()
-
-    st.experimental_rerun()
+        print('Error')
+        total = 'Syntax Error'
+        result = 'Syntax Error'
+        with open('expression.txt', 'a') as f:
+            f.write('\n')
+            f.write(str(result))
+            f.close()
+        with open('previous_calculations.txt', 'a') as f:
+            f.write(total+'\n')
+            f.close()
     with col0:
-        st.markdown('f(𝑥) =')
-    
+            st.markdown('f(𝑥) =')
+ 
     #st.experimental_rerun()
 
 #c01, c02, c03, c04, c05, c06 = st.columns([4, 1, 1, 2, 1, 1], gap="small")
@@ -175,7 +170,7 @@ with c13:
 
 with c14:
     if st.button('\+'):
-        append_expression('expression.txt', '˖')
+        append_expression('expression.txt', '+')
         st.experimental_rerun()
 
 with c15:
