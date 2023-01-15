@@ -262,29 +262,25 @@ components.html(
                 <td>7 </td>
                 <td>8 </td>
                 <td>9 </td>
-                <td style="width: 20px; background-color: #EEEEEE">&#215 </td>
-                <td style="width: 20px; background-color: #EEEEEE">&#247 </td>
+            
             </tr>
             <tr>
                 <td>4 </td>
                 <td>5 </td>
                 <td>6 </td>
-                <td style="width: 20px; background-color: #EEEEEE">&#43 </td>
-                <td style="width: 20px; background-color: #EEEEEE">&#8722 </td>
+                
             </tr>
             <tr>
                 <td>1 </td>
                 <td>2 </td>
                 <td>3 </td>
-                <td style="width: 20px; background-color: #EEEEEE">^ </td>
-                <td style="width: 20px; background-color: #EEEEEE">&#8730 </td>
+                
             </tr>
             <tr>
                 <td style="background-color: #FFFFFF"></td>
                 <td>0 </td>
                 <td style="background-color: #FFFFFF"></td>
-                <td style="width: 20px; background-color: #EEEEEE">&#61 </td>
-                <td style="width: 20px; font-size: 16px; padding: 10px 20px; background-color: #EEEEEE">(a+b)&#8319 </td>
+                
             </tr>
         </table>
     </body> 
