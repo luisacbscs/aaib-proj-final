@@ -167,7 +167,6 @@ if plt_button == True:
         #    f.write(total+'\n')
         #    f.close()
 
-#c01, c02, c03, c04, c05, c06 = st.columns([4, 1, 1, 2, 1, 1], gap="small")
 c11, c12, c13, c14, c15, c16, c17, c18, c19, c110 = st.columns([1, 1, 1, 1, 1, 1, 1, 1, 1, 1], gap="small")
 c21, c22, c23, c24, c25, c26, c27, c28, c29 = st.columns([2, 1, 1, 1, 1, 1, 1, 1, 2], gap="small")
 
