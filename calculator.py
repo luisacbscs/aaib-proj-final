@@ -41,10 +41,11 @@ def clear_expression(filename):
 
 def plot_graph(f):    
     fig = plt.figure(figsize=(18, 10))
-    plt.plot(f, color='#DAF7A6', linewidth=3)
+    plt.plot(f, color='#DAF7A6', linewidth=5)
     plt.xlabel("x")
     plt.ylabel("y")
     plt.grid('on')
+    plt.autoscale(tight = True)
     st.pyplot(fig)
 
 replacements = {
@@ -53,7 +54,7 @@ replacements = {
         'tan' : 'np.tan',
         'π' : 'np.pi',
         'exp': 'np.exp',
-        'sqrt': 'np.sqrt',
+        '√': 'np.sqrt',
         '^': '**',
     }
 
@@ -63,7 +64,7 @@ allowed_words = [
         'cos',
         'tan',
         'pi',
-        'sqrt',
+        '√',
         'exp',
     ]
 
@@ -80,6 +81,7 @@ with col1:
 with col2:
     if st.button('='):
         expression = read_expression('expression.txt')
+        print(expression)
 
         for old, new in replacements.items():
             expression = expression.replace(old, new)
@@ -124,38 +126,50 @@ with col2:
         plot.empty()
         st.experimental_rerun()
     
-    if st.button('REC', key = 1):
-        client.publish("AAIB-TL", payload="start")
+    #if st.button('REC', key = 1):
+        #client.publish("AAIB-TL", payload="start1")
+        #time.sleep(10)
+        #st.experimental_rerun()
+    
+    st.text('Record:')
+
+    if st.button('0-4', key = 'rec_1'):
+        client.publish("AAIB-TL", payload="start1")
+        time.sleep(10)
+        st.experimental_rerun()
+    
+    if st.button('5-9', key = 'rec_2'):
+        client.publish("AAIB-TL", payload="start2")
         time.sleep(10)
         st.experimental_rerun()
 
 if plt_button == True:
     expr = read_expression('expression.txt')
+    #print(expr)
     try:
         func = str_to_func(expr)
         x = np.arange(-100,100,0.1)
         with plot.container():
             plot_graph(func(x))
-    except:
+        with col0:
+            st.markdown('f(𝑥) =')
+
+    except SyntaxError:
         print('Error')
-        total = 'Syntax Error'
+        #total = 'Syntax Error'
         result = 'Syntax Error'
         with open('expression.txt', 'a') as f:
             f.write('\n')
             f.write(str(result))
             f.close()
-        with open('previous_calculations.txt', 'a') as f:
-            f.write(total+'\n')
-            f.close()
-    with col0:
-            st.markdown('f(𝑥) =')
- 
-    #st.experimental_rerun()
+        st.experimental_rerun()
+        #with open('previous_calculations.txt', 'a') as f:
+        #    f.write(total+'\n')
+        #    f.close()
 
 #c01, c02, c03, c04, c05, c06 = st.columns([4, 1, 1, 2, 1, 1], gap="small")
 c11, c12, c13, c14, c15, c16, c17, c18, c19, c110 = st.columns([1, 1, 1, 1, 1, 1, 1, 1, 1, 1], gap="small")
-c21, c22, c23, c24, c25, c26, c27, c28 = st.columns([2, 1, 1, 1, 1, 1, 1, 2], gap="small")
-
+c21, c22, c23, c24, c25, c26, c27, c28, c29 = st.columns([2, 1, 1, 1, 1, 1, 1, 1, 2], gap="small")
 
 #--------------------------------------------------------------------------OPERATIONS
 with c12:
@@ -185,7 +199,7 @@ with c16:
 
 with c17:
     if st.button('√'):
-        append_expression('expression.txt', 'sqrt')
+        append_expression('expression.txt', '√(')
         st.experimental_rerun()
 
 with c18:
@@ -226,6 +240,11 @@ with c26:
 with c27:
     if st.button('𝑥'):
         append_expression('expression.txt', 'x')
+        st.experimental_rerun()
+
+with c28:
+    if st.button('.'):
+        append_expression('expression.txt', '.')
         st.experimental_rerun()
        
 #--------------------------------------------------------------------------HTML CALCULATOR
