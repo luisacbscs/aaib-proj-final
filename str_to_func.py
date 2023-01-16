@@ -29,10 +29,9 @@ def str_to_func(string):
 
     alg = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     for i in range(len(string)):
-        if string[i] == 'x':
-            if string[i-1] in alg:
-                string = string[:i]+'*'+string[i:]
-
+        if string[i] == 'x' and i!=0 and string[i-1] in alg:
+            string = string[:i]+'*'+string[i:]
+    
     def func(x):
         return eval(string)
 

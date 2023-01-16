@@ -39,13 +39,13 @@ def clear_expression(filename):
                 f.write('Record function to plot.\n')
                 f.close()
 
-def plot_graph(f):    
+def plot_graph(x, f):    
     fig = plt.figure(figsize=(18, 10))
-    plt.plot(f, color='#DAF7A6', linewidth=5)
+    plt.plot(x, f, color='#DAF7A6', linewidth=4)
     plt.xlabel("x")
     plt.ylabel("y")
     plt.grid('on')
-    plt.autoscale(tight = True)
+    #plt.autoscale(tight = True)
     st.pyplot(fig)
 
 replacements = {
@@ -145,12 +145,12 @@ with col2:
 
 if plt_button == True:
     expr = read_expression('expression.txt')
-    #print(expr)
+    print(expr)
     try:
         func = str_to_func(expr)
-        x = np.arange(-100,100,0.1)
+        x = np.arange(-100, 100, 0.1)
         with plot.container():
-            plot_graph(func(x))
+            plot_graph(x, func(x))
         with col0:
             st.markdown('f(𝑥) =')
 
