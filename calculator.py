@@ -75,7 +75,7 @@ st.title('Calculator')
 col0, col1, col2 = st.columns([1, 10,2], gap = "small")
 with col1:
     display = st.empty()
-    display.markdown(read_expression('expression.txt'))
+    display.text(read_expression('expression.txt'))
     plot = st.empty()
 
 with col2:
@@ -109,7 +109,7 @@ with col2:
         try:
             result = expand(expression)
             total = expression + ' = ' +str(result)
-        except SyntaxError:
+        except (SyntaxError, NameError):
             total = 'Syntax Error'
             result = 'Syntax Error'
         with open('previous_calculations.txt', 'a') as f:

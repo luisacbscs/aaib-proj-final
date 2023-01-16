@@ -1,1 +1,3 @@
 Record mathematical expression to compute.
+(6x-2)^7
+279936x^7-653184x^6+653184x^5-362880x^4+120960x^3-24192x^2+2688x-128
